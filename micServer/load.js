@@ -11,20 +11,21 @@ const loadAppResource = (server, name, cb) => {
   if (!app) {
     cb && cb({
       success: false,
-      msg: `未找到注册过 ${appName} !`
+      msg: `未找到注册过 ${name} !`
     })
     return
   }
+  console.log(app)
 
   if (!app.host) {
     cb && cb({
       success: false,
-      msg: `未找到 ${appName} 项目资源地址`
+      msg: `未找到 ${name} 项目资源地址`
     })
     return
   }
 
-  loadHtml(server, app.host, appName, cb)
+  loadHtml(server, app.host, name, cb)
 }
 
 // 拉取网页html资源
@@ -32,7 +33,7 @@ const loadHtml = (server, host, name, cb) => {
   // 获取资源
   server._axios({
     method: 'get',
-    url: host + '?times=' + (new Date()).valueOf(),
+    url: `${host}?times=${new Date().valueOf()}`,
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: {}
   }).then((res) => {
@@ -44,7 +45,7 @@ const loadHtml = (server, host, name, cb) => {
     console.log('资源加载出错了', host, error)
     cb && cb({
       success: false,
-      msg: `加载 ${appName} 资源错误`
+      msg: `加载 ${name} 资源错误`
     })
   }).catch((e) => {
     console.log('运行异常',e)
@@ -56,7 +57,7 @@ const getScriptLink = (server, host, name, cb, html) => {
   // 使用服务传入的cheerio解析html资源
   const $ = server._cheerio.load(html)
   // 获取link资源
-  const linkList = []
+  let linkList = []
   $('link').each((i, ele) => {
     if (ele.type === 'tag' && ele.name === 'link') {
       linkList.push({
@@ -92,13 +93,13 @@ const getScriptLink = (server, host, name, cb, html) => {
       }
     })
     return flag
-  })
+  });
 
   console.log('linkList', linkList)
   console.log('scriptList', scriptList)
   // 2. 挂载资源
   appendDOMElement(server, linkList, 'link')
-  appendDOMElement(server, scriptList, 'script', appName, cb)
+  appendDOMElement(server, scriptList, 'script', name, cb)
 }
 
 // 添加相关属性 挂载资源

@@ -108,19 +108,6 @@ export default {
               path: '/app3/about'
             }
           ]
-        },
-        {
-          id: 4,
-          label: 'React - App4',
-          icon: 'el-icon-s-grid',
-          appName: 'app4', // 归属那个App
-          children: [
-            {
-              id: 41,
-              label: 'app4 - home',
-              path: '/app4/home'
-            }
-          ]
         }
       ]
     };
@@ -139,9 +126,9 @@ export default {
       this.ActiveName = 'main'
     },
     jumpRouter (appName, path) {
-      console.log('跳转页面',this.micServer, appName, path)
+      console.log('跳转页面',this.$MicServer, appName, path)
       // 跳转页面
-      this.micServer.pushRouter({appName, path}, (res) => {
+      this.$MicServer.pushRouter({appName, path}, (res) => {
         console.log(res)
         if (res.success) {
           if (appName === 'app4') {

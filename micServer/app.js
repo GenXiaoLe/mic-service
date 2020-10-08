@@ -82,7 +82,7 @@ const startApp = (server, options) => {
 
 // 获取服务实例的方法
 const getInstance = (server, options) => {
-  const name = options.name
+  const name = options.appName
 
   if (!name) {
     console.log('服务名不能为空')
@@ -90,6 +90,7 @@ const getInstance = (server, options) => {
   }
 
   const app = server.apps[name]
+  console.log(server.apps, '------', name)
 
   if (app) {
     // 如果服务存在 则返回服务实例

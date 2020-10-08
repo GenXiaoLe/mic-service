@@ -49,7 +49,7 @@ _MicServer.getInstance({
   _cheerio: cheerio,
   appList: appList
 }).then((_micServer) => {
-  // window上的主服务挂载到vue实例上
+  // window上的主服务挂载到vue实例上 在其他地方调用内部方法
   Vue.prototype.$MicServer = _micServer
   console.log('主项目 getInstance then', _micServer)
 
@@ -86,8 +86,10 @@ _MicServer.getInstance({
         if (res.success) {
           // 获取到的实例
           const _instance = res.instance
+          
+          console.log(_instance, '_instance ----->', path)
           _instance.$router.push({
-            path
+            path: path
           })
         } else {
           res.$message.error(res.msg)
